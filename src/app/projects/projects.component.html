@@ -1,0 +1,22 @@
+
+<div>
+  <h2>BCI Customers</h2>
+  <div><button class="createNewButton btn btn-primary" (click)="createNew()">Create New</button></div>
+
+  <table class="table table-condensed table-hover col-md-8 col-md-offset-2">
+    <tr class="header ">
+      <th>Customer Code</th>
+      <th>Customer Name</th>
+      <th>Files</th>
+      <th>Identifier</th>
+    </tr>
+    <tr *ngFor="let project of projects">
+      <!--<td><a (click)="selectCustomer(customer.CustomerCD)">{{customer.CustomerCD}}</a></td>-->
+      <td>{{project.CompanyName}}</td>
+      <td>{{project.ClassificationId}}</td>
+      <td>{{project.firstName}}</td>
+
+    </tr>
+  </table>
+
+</div>

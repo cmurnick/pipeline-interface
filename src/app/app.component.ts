@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'BCI Sales Pipeline';
+  constructor(private alertService: AlertService) {}
+
+  showAlerts(): void {
+    this.alertService.info('this is an info alert');
+    this.alertService.danger('this is a danger alert');
+    this.alertService.success('Success!');
+    this.alertService.warning('this is a warning alert');
+  }
 }
