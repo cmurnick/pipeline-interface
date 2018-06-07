@@ -1,22 +1,43 @@
 
 <div>
-  <h2>BCI Customers</h2>
-  <div><button class="createNewButton btn btn-primary" (click)="createNew()">Create New</button></div>
+  <h2>Sales Pipeline</h2>
+  <div class="form-group col-md-2 col-md-offset-5 ">
+    <label >Choose a Sales Exec</label>
+    <select class="form-group col-md-2 form-control" [(ngModel)]="selectedExec" >
+      <option value="0"></option>
+      <option *ngFor="let salesexec of salesExecs"  value="{{salesexec.SalesExecId}}">{{salesexec.FirstName}}</option>
+    </select>
+    <div><button class = "btn btn-primary" (click)="selectSalesExec(selectedExec)" ngx-alert ="showAlerts()">Submit</button></div>
+  </div>
+  <div></div>
 
-  <table class="table table-condensed table-hover col-md-8 col-md-offset-2">
-    <tr class="header ">
-      <th>Customer Code</th>
-      <th>Customer Name</th>
-      <th>Files</th>
-      <th>Identifier</th>
-    </tr>
-    <tr *ngFor="let project of projects">
-      <!--<td><a (click)="selectCustomer(customer.CustomerCD)">{{customer.CustomerCD}}</a></td>-->
-      <td>{{project.CompanyName}}</td>
-      <td>{{project.ClassificationId}}</td>
-      <td>{{project.firstName}}</td>
 
-    </tr>
-  </table>
+    <table class="table table-condensed table-hover ">
+      <tr class="header ">
+        <th class="col-md-1">Sold Classification</th>
+        <th class="col-md-1">Company Name</th>
+        <th class="col-md-1">Start Date</th>
+        <th class="col-md-1">End Date</th>
+        <th class="col-md-1">Number Eligible</th>
+        <th class="col-md-1">Number Interview</th>
+        <th class="col-md-1">Enrollment System</th>
+        <th class="col-md-1">VB Carrier</th>
+        <th class="col-md-1">Enrollment Method</th>
+      </tr>
+      <div *ngIf="selectedExec"></div>
+      <tr *ngFor="let project of projects">
+        <td>{{project.ClassificationName}}</td>
+        <!--<td><a (click)="selectedProject(singleProject)"  data-toggle="modal" data-target="#myModal" >{{project.CompanyName}}</a></td>  -->
+        <td >{{project.StartDate}}</td>
+        <td>{{project.EndDate}}</td>
+        <td>{{project.NumberEligible}}</td>
+        <td>{{project.NumberInterview}}</td>
+        <td>{{project.SystemName}}</td>
+        <td>{{project.VbCarrierName}}</td>
+        <td>{{project.EnrollmentMethodType}}</td>
+
+      </tr>
+    </table>
+  <!--</div>-->
 
 </div>

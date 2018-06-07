@@ -10,6 +10,7 @@ import { AlertModule} from 'ngx-alerts';
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { ProjectService} from './services/project.service';
+import {LookupsService} from './services/lookups.service';
 
 @NgModule({
   declarations: [
@@ -26,12 +27,9 @@ import { ProjectService} from './services/project.service';
     AlertModule.forRoot({maxMessages: 5, timeout: 5000})
   ],
   providers: [
-    ProjectService
-    // CustomerService,
-    // CustomerFileService,
-    // CustomerFieldService,
-    // BCITableService,
-    // BCIFieldService,
+    ProjectService,
+    LookupsService
+
     // Globals
   ],
   bootstrap: [AppComponent]
