@@ -2,8 +2,13 @@ import { Component, OnInit, ViewChild  } from '@angular/core';
 import {ProjectService} from '../services/project.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SalesExec} from '../models/sales-exec';
+import { Product } from '../models/product';
+import { EnrollmentSystem} from '../models/enrollment-system';
+import { EnrollmentMethod} from '../models/enrollment-method';
+import { VbCarrier} from '../models/vb-carrier';
 import { LookupsService} from '../services/lookups.service';
 import { Project} from '../models/project';
+import { Classification} from '../models/classification';
 import { NgForm} from '@angular/forms';
 import {Input} from '@angular/compiler/src/core';
 
@@ -17,10 +22,13 @@ export class ProjectsComponent implements OnInit {
   @ViewChild(NgForm) editForm: NgForm;
   projects: Project[];
   salesExecs: SalesExec[];
-  selectedExec: SalesExec;
-  project: Project;
+  selectedExecId: number;
   singleProject: Project;
-
+  classifications: Classification[];
+  products: Product[];
+  vbCarriers: VbCarrier[];
+  enrollmentMethods: EnrollmentMethod[];
+  enrollmentSystems: EnrollmentSystem[];
 
   constructor(
     private projectService: ProjectService,
@@ -32,6 +40,11 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.getSalesExecs();
+    this.getClassifications();
+    this.getProducts();
+    this.getEnrollmentMethods();
+    this.getEnrollmentSystems();
+    this.getVbCarriers();
   }
 
   getProjectsWithProductsForOneExec(salesExecId: number) {
@@ -45,7 +58,52 @@ export class ProjectsComponent implements OnInit {
     );
   }
 
-  getSalesExecs() {
+  getClassifications() {
+    this.lookupsService.getClassifications().subscribe(
+      data => {
+        this.classifications = data as Classification[];
+      },
+      err => console.log(err)
+    );
+  }
+
+  getProducts() {
+    this.lookupsService.getProducts().subscribe(
+      data => {
+        this.products = data as Product[];
+      },
+      err => console.log(err)
+    );
+  }
+
+  getVbCarriers() {
+    this.lookupsService.getVbCarriers().subscribe(
+      data => {
+        this.vbCarriers = data as VbCarrier[];
+      },
+      err => console.log(err)
+    );
+  }
+
+  getEnrollmentMethods() {
+    this.lookupsService.getEnrollmentMethods().subscribe(
+      data => {
+        this.enrollmentMethods = data as EnrollmentMethod[];
+      },
+      err => console.log(err)
+    );
+  }
+
+  getEnrollmentSystems() {
+    this.lookupsService.getEnrollmentSystems().subscribe(
+      data => {
+        this.enrollmentSystems = data as EnrollmentSystem[];
+      },
+      err => console.log(err)
+    );
+  }
+
+   getSalesExecs() {
     this.lookupsService.getSalesExecs().subscribe(
       data => {
         this.salesExecs = data as SalesExec[];
@@ -55,12 +113,10 @@ export class ProjectsComponent implements OnInit {
     );
   }
 
-  selectSalesExec(salesExec: SalesExec) {
-    this.selectedExec = salesExec;
-    console.log('selected', this.selectedExec);
-    this.getProjectsWithProductsForOneExec(2);
+  selectedProject(project: Project) {
+    this.singleProject = project;
+    console.log('selected', this.singleProject);
   }
 
-  // selectedProject(singleProject)
 
 }

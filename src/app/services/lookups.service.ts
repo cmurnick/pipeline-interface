@@ -4,7 +4,8 @@ import { SalesExec} from '../models/sales-exec';
 import { Observable} from 'rxjs';
 
 
-@Injectable({
+@Injectable
+({
   providedIn: 'root'
 })
 export class LookupsService {
@@ -17,7 +18,32 @@ export class LookupsService {
   }
 
   getSalesExecs() {
-    const url = this.apiUrl + 'lookup/salesexec';
+    const url = this.apiUrl + 'lookup/salesexecs';
+    return this.http.get(url);
+  }
+
+  getVbCarriers() {
+    const url = this.apiUrl + 'lookup/vbcarriers';
+    return this.http.get(url);
+  }
+
+  getEnrollmentMethods() {
+    const url = this.apiUrl + 'lookup/enrollmentmethods';
+    return this.http.get(url);
+  }
+
+  getClassifications() {
+    const url = this.apiUrl + 'lookup/classifications';
+    return this.http.get(url);
+  }
+
+  getEnrollmentSystems() {
+    const url = this.apiUrl + 'lookup/enrollmentsystems';
+    return this.http.get(url);
+  }
+
+  getProducts() {
+    const url = this.apiUrl + 'lookup/products';
     return this.http.get(url);
   }
 }

@@ -3,13 +3,15 @@
   <h2>Sales Pipeline</h2>
   <div class="form-group col-md-2 col-md-offset-5 ">
     <label >Choose a Sales Exec</label>
-    <select class="form-group col-md-2 form-control" [(ngModel)]="selectedExec" >
+    <select class="form-group col-md-2 form-control"  [(ngModel)]="selectedExecId" >
       <option value="0"></option>
       <option *ngFor="let salesexec of salesExecs"  value="{{salesexec.SalesExecId}}">{{salesexec.FirstName}}</option>
     </select>
-    <div><button class = "btn btn-primary" (click)="selectSalesExec(selectedExec)" ngx-alert ="showAlerts()">Submit</button></div>
+    <div><button class = "btn btn-primary" (click)="getProjectsWithProductsForOneExec(selectedExecId)" ngx-alert ="showAlerts()">Submit</button></div>
   </div>
-  <div></div>
+
+  <div>
+  <div><button class="btn btn-primary"  data-toggle="modal" data-target="#myModal"  ngx-alert ="showAlerts()">New Customer Field</button></div>
 
 
     <table class="table table-condensed table-hover ">
@@ -24,11 +26,11 @@
         <th class="col-md-1">VB Carrier</th>
         <th class="col-md-1">Enrollment Method</th>
       </tr>
-      <div *ngIf="selectedExec"></div>
+      <div *ngIf="selectedExecId"></div>
       <tr *ngFor="let project of projects">
-        <td>{{project.ClassificationName}}</td>
-        <!--<td><a (click)="selectedProject(singleProject)"  data-toggle="modal" data-target="#myModal" >{{project.CompanyName}}</a></td>  -->
-        <td >{{project.StartDate}}</td>
+        <td >{{project.ClassificationName}}</td>
+        <td><button type="button" class="btn btn-default" (click)="selectedProject(project)"  data-toggle="modal" data-target="#myModal" >{{project.CompanyName}}</button></td>
+        <td>{{project.StartDate}}</td>
         <td>{{project.EndDate}}</td>
         <td>{{project.NumberEligible}}</td>
         <td>{{project.NumberInterview}}</td>
@@ -38,6 +40,128 @@
 
       </tr>
     </table>
-  <!--</div>-->
+  </div>
 
+   <!--Modal-->
+  <div id="myModal" class="modal fade" role="dialog" >
+
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+
+        <div class="modal-header" *ngIf="singleProject">
+
+          <h3>{{singleProject.CompanyName}}<button type="button" class="close headerstyle" data-dismiss="modal">&times;</button></h3>
+        </div>
+
+        <div class="modal-body" *ngIf="singleProject">
+
+          <!--<div class="form-group col-md-6">-->
+            <!--<label class="customerFileInput" >Customer Field Name</label>-->
+            <!--<input type="text" class="form-control" id="modalFieldName" placeholder="Name" name="selectedCustomerField" [(ngModel)]="singleProject.ProjectId" >-->
+          <!--</div>-->
+
+          <div class="form-group col-md-6">
+            <label class="customerFileInput" >Enrollment Start Date:</label>
+            <input type="date" class="form-control"  [(ngModel)]="singleProject.StartDate" >
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="customerFileInput" >Enrollment End Date:</label>
+            <input type="date" class="form-control"  [(ngModel)]="singleProject.EndDate" >
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="labelLook" >Sales Exec</label>
+            <select   class="form-group col-md-6 form-control"  [(ngModel)]="singleProject.SalesExecId" >
+              <option value = 0 ></option>
+              <option *ngFor="let salesexec of salesExecs"  value ="{{salesexec.SalesExecId}}" >{{salesexec.FirstName}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="labelLook">Sold Classification:</label>
+            <select   class="form-group col-md-6 form-control"  name="singleProject" [(ngModel)]="singleProject.ClassificationId">
+              <option  ></option>
+              <option *ngFor="let classification of classifications" [ngStyle]="{color: classification.classificationName === '100% sold' ? 'green' : 'gray'}" value="{{classification.ClassificationId}}">{{classification.ClassificationName}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="labelLook">EnrollmentSystem:</label>
+              <select   class="form-group col-md-6 form-control"  name="singleProject" [(ngModel)]="singleProject.EnrollmentSystemId">
+                <option  ></option>
+                <option *ngFor="let enrollmentSystem of enrollmentSystems" value="{{enrollmentSystem.EnrollmentSystemId}}">{{enrollmentSystem.SystemName}}</option>
+              </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="labelLook">EnrollmentMethod:</label>
+            <select   class="form-group col-md-6 form-control"  name="singleProject" [(ngModel)]="singleProject.EnrollmentMethodId">
+              <option  ></option>
+              <option *ngFor="let enrollmentMethod of enrollmentMethods" value="{{enrollmentMethod.EnrollmentMethodId}}">{{enrollmentMethod.EnrollmentMethodType}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="labelLook">VB Carrier:</label>
+            <select   class="form-group col-md-6 form-control"  name="singleProject" [(ngModel)]="singleProject.VbCarrierId">
+              <option  ></option>
+              <option *ngFor="let vbCarrier of vbCarriers" value="{{vbCarrier.VbCarrierId}}">{{vbCarrier.VbCarrierName}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-12 overallCheckbox">
+            <label class="customerFileInput">Products</label>
+            <ul class="productList">
+              <li *ngFor="let product of products" class="productWrap">
+                <input type="checkbox" value="{{product.ProductId}}"><p>{{product.ProductName}}</p>
+              </li>
+            </ul>
+          </div>
+
+          <!--<div class="form-group col-md-6 overallCheckbox">-->
+            <!--<input type="checkbox" class="checkbox" id="modalSecondaryKey" placeholder="BCI Field" name="selectedCustomerField" [(ngModel)]="selectedCustomerField.SecondaryKeyField" >-->
+            <!--<label class="customerFileInput" >Secondary Key</label>-->
+          <!--</div>-->
+
+          <!--<div class="form-group col-md-6 overallCheckbox">-->
+            <!--<input type="checkbox" class="checkbox" id="modalTertiaryKey" placeholder="BCI Field" name="selectedCustomerField" [(ngModel)]="selectedCustomerField.TertiaryKeyField" >-->
+            <!--<label class="customerFileInput" >Tertiary Key</label>-->
+          <!--</div>-->
+
+          <!--<div class="form-group col-md-6 overallCheckbox">-->
+            <!--<input type="checkbox" class="checkbox" id="modalRequired" placeholder="BCI Field" name="selectedCustomerField" [(ngModel)]="selectedCustomerField.RequiredField" >-->
+            <!--<label class="customerFileInput" >Required</label>-->
+
+          <!--</div>-->
+
+          <!--<div class="form-group col-md-6 overallCheckbox">-->
+            <!--<input type="checkbox" class="checkbox" id="modalDoNotImport" placeholder="BCI Field" name="selectedCustomerField" [(ngModel)]="selectedCustomerField.DoNotImport" >-->
+            <!--<label class="customerFileInput" >Do Not Import</label>-->
+
+          <!--</div>-->
+
+          <!--<div class="form-group col-md-6">-->
+            <!--<label class="customerFileInput" >Column Width</label>-->
+            <!--<input type="text" class="form-control" id="modalColumnWidth" placeholder="Sort Order" name="selectedCustomerField" [(ngModel)]="selectedCustomerField.ColumnWidth" >-->
+          <!--</div>-->
+
+        <!--</div>-->
+
+        <div class="modal-footer">
+          <!--<button type="button" class="btn btn-default" (click)="SaveModal(customer.CustomerCD, customerFile.CustomerFileID, selectedCustomerField)" ngx-alert ="showAlerts()">Save</button>-->
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <div  class="errorBox col-md-8 col-md-offset-2">
+          <!--<ul *ngIf="customerFieldMessages" >-->
+            <!--<li *ngFor="let message of customerFieldMessages ">{{message.MessageText}}</li>-->
+          <!--</ul>-->
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
 </div>
