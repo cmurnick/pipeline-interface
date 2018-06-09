@@ -11,6 +11,7 @@ import { Project} from '../models/project';
 import { Classification} from '../models/classification';
 import { NgForm} from '@angular/forms';
 import {Input} from '@angular/compiler/src/core';
+import {ServiceReturn} from '../models/service-return';
 
 @Component({
   selector: 'app-projects',
@@ -29,6 +30,7 @@ export class ProjectsComponent implements OnInit {
   vbCarriers: VbCarrier[];
   enrollmentMethods: EnrollmentMethod[];
   enrollmentSystems: EnrollmentSystem[];
+  serviceReturn: ServiceReturn;
 
   constructor(
     private projectService: ProjectService,
@@ -119,4 +121,26 @@ export class ProjectsComponent implements OnInit {
   }
 
 
+  SaveModal (singleProject: Project) {
+    console.log('singleProject', singleProject)
+    this.projectService.postProject(singleProject)
+      .subscribe(
+        data => {this.serviceReturn = <ServiceReturn>data; },
+        err => console.log(err),
+        // err => this.alertService.danger('CustomerFile Save failed!')
+        // () => this.handleSave()
+      );
+  }
+  //
+  // handleSave() {
+  //   if (this.serviceReturn.Success) {
+  //     this.alertService.success('CustomerFile saved successfully!');
+  //     this.customerFile = JSON.parse(JSON.stringify(this.serviceReturn.Data));
+  //     this.globals.customerGlobal = this.customer;
+  //     console.log("customerFile", this.customerFile);
+  //   } else {
+  //     this.alertService.danger( 'CustomerFile save failed!');
+  //     this.messages = JSON.parse(JSON.stringify(this.serviceReturn.Messages));
+  //   }
+  // }
 }
