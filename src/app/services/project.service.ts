@@ -22,8 +22,8 @@ export class ProjectService {
     return this.http.get(url);
   }
 
-  postProject(singleProject: Project): Observable<ServiceReturn> {
-    return this.http.post<ServiceReturn>(this.apiUrl + 'projects/', singleProject);
+  postProject(projectToSave): Observable<ServiceReturn> {
+    return this.http.post<ServiceReturn>(this.apiUrl + 'projects/', projectToSave);
 
   }
 }
