@@ -51,7 +51,8 @@
 
         <div class="modal-header" *ngIf="singleProject">
 
-          <h3>{{singleProject.CompanyName}}<button type="button" class="close headerstyle" data-dismiss="modal">&times;</button></h3>
+          <h3>{{singleProject.CompanyName}}<button type="button" class="close headerstyle" data-dismiss="modal">x</button></h3>
+          <h5>ID - {{singleProject.ProjectId}}</h5>
         </div>
 
         <div class="modal-body" *ngIf="singleProject">
