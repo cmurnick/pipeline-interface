@@ -12,7 +12,6 @@ import { Classification} from '../models/classification';
 import { NgForm} from '@angular/forms';
 import {Input} from '@angular/compiler/src/core';
 import {ServiceReturn} from '../models/service-return';
-import {ProjectToSave} from '../models/project-to-save';
 
 @Component({
   selector: 'app-projects',
@@ -32,7 +31,7 @@ export class ProjectsComponent implements OnInit {
   enrollmentMethods: EnrollmentMethod[];
   enrollmentSystems: EnrollmentSystem[];
   serviceReturn: ServiceReturn;
-  projectToSave: ProjectToSave;
+
 
   constructor(
     private projectService: ProjectService,
@@ -61,6 +60,15 @@ export class ProjectsComponent implements OnInit {
       () => console.log('projects Loaded')
     );
   }
+
+  createNewProject() {
+    this.singleProject = new Project('', 0, 0, 0, true, 0, 0, 0, '', '', 0, 0, '', '', '', '', '', '', '');
+
+  }
+
+  // createNewFile (customerCD: string, id : number) {
+  //   this.customerFile = new CustomerFile(id, customerCD,0, '','', 0, '','' );
+  // }
 
   getClassifications() {
     this.lookupsService.getClassifications().subscribe(
@@ -124,23 +132,8 @@ export class ProjectsComponent implements OnInit {
 
 
   SaveModal (singleProject: Project) {
-    const projectToSave = ProjectToSave;
-    //   {
-    //   ProjectId: singleProject.ProjectId,
-    //   CompanyName: singleProject.CompanyName,
-    //   NumberEligible: singleProject.NumberEligible,
-    //   NumberInterview: singleProject.NumberInterview,
-    //   ClassificationId: singleProject.ClassificationId,
-    //   New: singleProject.New,
-    //   SalesExecId: singleProject.SalesExecId,
-    //   EnrollmentSystemId: singleProject.EnrollmentSystemId,
-    //   VbCarrierId: singleProject.VbCarrierId,
-    //   StartDate: singleProject.StartDate,
-    //   EndDate: singleProject.EndDate,
-    //   EnrollmentMethodId: singleProject.EnrollmentMethodId
-    // };
-    console.log('ProjectToSave', projectToSave)
-    this.projectService.postProject(projectToSave)
+    console.log('ProjectToSave', singleProject);
+    this.projectService.postProject(singleProject)
       .subscribe(
         data => {this.serviceReturn = <ServiceReturn>data; },
         err => console.log(err),

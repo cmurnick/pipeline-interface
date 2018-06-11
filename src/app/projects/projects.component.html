@@ -7,11 +7,11 @@
       <option value="0"></option>
       <option *ngFor="let salesexec of salesExecs"  value="{{salesexec.SalesExecId}}">{{salesexec.FirstName}}</option>
     </select>
-    <div><button class = "btn btn-primary" (click)="getProjectsWithProductsForOneExec(selectedExecId)" ngx-alert ="showAlerts()">Submit</button></div>
+    <div><button class = "btn btn-primary" (click)="getProjectsWithProductsForOneExec(selectedExecId)"  ngx-alert ="showAlerts()">Submit</button></div>
   </div>
 
   <div>
-  <div><button class="btn btn-primary"  data-toggle="modal" data-target="#myModal"  ngx-alert ="showAlerts()">New Customer Field</button></div>
+  <div><button class="btn btn-primary"  data-toggle="modal" (click)="createNewProject()"  data-target="#myModal"  ngx-alert ="showAlerts()">New Customer Field</button></div>
 
 
     <table class="table table-condensed table-hover ">
@@ -51,25 +51,26 @@
 
         <div class="modal-header" *ngIf="singleProject">
 
-          <h3>{{singleProject.CompanyName}}<button type="button" class="close headerstyle" data-dismiss="modal">x</button></h3>
-          <h5>ID - {{singleProject.ProjectId}}</h5>
+          <h5 >{{singleProject.ProjectId}}<button type="button" class="close headerstyle" data-dismiss="modal">x</button></h5>
+
         </div>
 
         <div class="modal-body" *ngIf="singleProject">
 
-          <!--<div class="form-group col-md-6">-->
-            <!--<label class="customerFileInput" >Customer Field Name</label>-->
-            <!--<input type="text" class="form-control" id="modalFieldName" placeholder="Name" name="selectedCustomerField" [(ngModel)]="singleProject.ProjectId" >-->
-          <!--</div>-->
+
+          <div class="form-group col-md-6">
+            <label class="customerFileInput" >Project Name:</label>
+            <input type="text" class="form-control"  [(ngModel)]="singleProject.CompanyName" >
+          </div>
 
           <div class="form-group col-md-6">
             <label class="customerFileInput" >Enrollment Start Date:</label>
-            <input type="date" class="form-control"  [(ngModel)]="singleProject.StartDate" >
+            <input type="date" class="form-control"  [(ngModel)]="singleProject.StartDateDisplay" >
           </div>
 
           <div class="form-group col-md-6">
             <label class="customerFileInput" >Enrollment End Date:</label>
-            <input type="date" class="form-control"  [(ngModel)]="singleProject.EndDate" >
+            <input type="date" class="form-control"  [(ngModel)]="singleProject.EndDateDisplay" >
           </div>
 
           <div class="form-group col-md-6">
@@ -118,7 +119,7 @@
             <input type="radio" name="new" [(ngModel)]="singleProject.New" value="false"    >Existing<br>
           </div>
 
-          <div class="form-group col-md-12 overallCheckbox">
+          <div class="form-group col-md-6 overallCheckbox">
             <label class="customerFileInput">Products</label>
             <ul class="productList">
               <li *ngFor="let product of products" class="productWrap">
