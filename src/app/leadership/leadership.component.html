@@ -1,3 +1,42 @@
-<p>
-  leadership works!
-</p>
+<H1>Leadership Report</H1>
+
+  <div>
+    <ul>
+      <li class="trimester"><input type="radio" name="trimester" value="true">T1</li>
+      <li class="trimester"><input type="radio" name="trimester" value="true">T2</li>
+      <li class="trimester"><input type="radio" name="trimester" (click)="get()" value="true">T3</li>
+    </ul>
+  </div>
+
+  <div>
+    <h3>Trimester 1</h3>
+
+    <table class="table table-condensed table-hover ">
+      <tr class="header ">
+        <th class="col-md-1">SalesExec</th>
+        <th class="col-md-1">Sold Classification</th>
+        <th class="col-md-1">Company Name</th>
+        <th class="col-md-1">Start Date</th>
+        <th class="col-md-1">End Date</th>
+        <th class="col-md-1">Number Eligible</th>
+        <th class="col-md-1">Number Interview</th>
+        <th class="col-md-1">Enrollment System</th>
+        <th class="col-md-1">VB Carrier</th>
+        <th class="col-md-1">Enrollment Method</th>
+      </tr>
+      <div></div>
+      <tr *ngFor="let project of projects">
+        <td>{{project.FirstName}}</td>
+        <td>{{project.ClassificationName}}</td>
+        <td>{{project.CompanyName}}</td>
+        <td>{{project.StartDate}}</td>
+        <td>{{project.EndDate}}</td>
+        <td>{{project.NumberEligible}}</td>
+        <td>{{project.NumberInterview}}</td>
+        <td>{{project.SystemName}}</td>
+        <td>{{project.VbCarrierName}}</td>
+        <td>{{project.EnrollmentMethodType}}</td>
+
+      </tr>
+    </table>
+  </div>

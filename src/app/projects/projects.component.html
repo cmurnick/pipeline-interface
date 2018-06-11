@@ -84,7 +84,7 @@
             <label class="labelLook">Sold Classification:</label>
             <select   class="form-group col-md-6 form-control"  name="singleProject" [(ngModel)]="singleProject.ClassificationId">
               <option  ></option>
-              <option *ngFor="let classification of classifications" [ngStyle]="{color: classification.classificationName === '100% sold' ? 'green' : 'gray'}" value="{{classification.ClassificationId}}">{{classification.ClassificationName}}</option>
+              <option *ngFor="let classification of classifications" value="{{classification.ClassificationId}}">{{classification.ClassificationName}}</option>
             </select>
           </div>
 
