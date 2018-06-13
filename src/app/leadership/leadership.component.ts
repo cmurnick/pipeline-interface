@@ -4,7 +4,10 @@ import { Router } from '@angular/router';
 import {Project} from '../models/project';
 import { LeadershipService} from '../services/leadership.service';
 import {ProjectService} from '../services/project.service';
-
+import { Product} from '../models/product';
+import {ProductProject} from '../models/product-project';
+import {Classification} from '../models/classification';
+import {ProductProjectService} from '../services/product-project.service';
 
 @Component({
   selector: 'app-leadership',
@@ -13,9 +16,11 @@ import {ProjectService} from '../services/project.service';
 })
 export class LeadershipComponent implements OnInit {
   projects: Project[];
+  productProjects: ProductProject[];
 
   constructor(
-    private leadershipService: LeadershipService) { }
+    private leadershipService: LeadershipService,
+    private productProjectService: ProductProjectService) { }
 
   ngOnInit() {
 
@@ -32,4 +37,13 @@ export class LeadershipComponent implements OnInit {
       () => console.log('projects Loaded')
     );
   }
-}
+
+  getProductProjects() {
+    this.productProjectService.getProductProjects().subscribe(
+      data => {
+        this.productProjects = data as ProductProject[];
+      },
+      err => console.log(err)
+    );
+  }
+ }

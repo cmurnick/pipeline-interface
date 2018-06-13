@@ -13,11 +13,13 @@ import { ProjectService} from './services/project.service';
 import {LookupsService} from './services/lookups.service';
 import { LeadershipComponent } from './leadership/leadership.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     ProjectsComponent,
     LeadershipComponent,
+
     // GlobalsChildComponent
   ],
   imports: [

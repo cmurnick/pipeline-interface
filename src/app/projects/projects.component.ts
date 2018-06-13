@@ -12,6 +12,9 @@ import { Classification} from '../models/classification';
 import { NgForm} from '@angular/forms';
 import {Input} from '@angular/compiler/src/core';
 import {ServiceReturn} from '../models/service-return';
+import DateTimeFormat = Intl.DateTimeFormat;
+import {DateFormatter} from '@angular/common/src/pipes/deprecated/intl';
+
 
 @Component({
   selector: 'app-projects',
@@ -62,7 +65,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   createNewProject() {
-    this.singleProject = new Project('', 0, 0, 0, true, 0, 0, 0, '', '', 0, 0, '', '', '', '', '', '', '');
+    this.singleProject = new Project('', 0, 0, 0, true, 0, 0, 0, '2018-01-19T00:00:00', '2018-01-19T00:00:00', 0, 0, '', '', '', '', '');
 
   }
 

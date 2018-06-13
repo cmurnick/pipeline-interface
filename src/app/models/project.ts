@@ -1,3 +1,5 @@
+import { Product} from './product';
+
 export class Project {
   constructor(
     public CompanyName: string,
@@ -16,8 +18,8 @@ export class Project {
     public FirstName: string,
     public SystemName: string,
     public VbCarrierName: string,
-    public EnrollmentMethodType: string,
-    public StartDateDisplay: string,
-    public EndDateDisplay: string
+    public EnrollmentMethodType: string
+    // public StartDateDisplay: string,
+    // public EndDateDisplay: string
  ) {}
 }
