@@ -38,8 +38,8 @@ export class LeadershipComponent implements OnInit {
     );
   }
 
-  getProductProjects() {
-    this.productProjectService.getProductProjects().subscribe(
+  postProductProjects() {
+    this.productProjectService.postProductProjects().subscribe(
       data => {
         this.productProjects = data as ProductProject[];
       },

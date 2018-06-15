@@ -24,6 +24,7 @@
         <th class="col-md-1">Enrollment System</th>
         <th class="col-md-1">VB Carrier</th>
         <th class="col-md-1">Enrollment Method</th>
+        <th class="col-md-1">Products</th>
       </tr>
       <div *ngIf="selectedExecId"></div>
       <tr *ngFor="let project of projects">
@@ -36,6 +37,7 @@
         <td>{{project.SystemName}}</td>
         <td>{{project.VbCarrierName}}</td>
         <td>{{project.EnrollmentMethodType}}</td>
+        <td>{{project.ProductNames}}</td>
 
       </tr>
     </table>
@@ -134,39 +136,11 @@
 
           <div class="form-group col-md-12 " >
             <label class="labelLook">Products:</label>
-            <label class="checkbox-inline prodlab" *ngFor="let product of products">
-              <input type="checkbox" class="productinput"  value="{{product.ProductId}}">{{product.ProductName}}
+            <label class="checkbox-inline prodlab" *ngFor="let product of custAllProducts">
+              <input type="checkbox" class="productinput" value="" [(ngModel)]="product.Selected">{{product.ProductName}}
             </label>
          </div>
-          <!--<form>-->
-            <!--<div class="form-group " *ngFor="let product of products">-->
-              <!--<label class="productlabel"><input type="checkbox" class="checkbox" value="{{product.ProductId}}"/>{{product.ProductName}}</label>-->
-            <!--</div>-->
-          <!--</form>-->
 
-          <!--<div class="form-group col-md-6 overallCheckbox">-->
-            <!--<input type="checkbox" class="checkbox" id="modalTertiaryKey" placeholder="BCI Field" name="selectedCustomerField" [(ngModel)]="selectedCustomerField.TertiaryKeyField" >-->
-            <!--<label class="customerFileInput" >Tertiary Key</label>-->
-          <!--</div>-->
-
-          <!--<div class="form-group col-md-6 overallCheckbox">-->
-            <!--<input type="checkbox" class="checkbox" id="modalRequired" placeholder="BCI Field" name="selectedCustomerField" [(ngModel)]="selectedCustomerField.RequiredField" >-->
-            <!--<label class="customerFileInput" >Required</label>-->
-
-          <!--</div>-->
-
-          <!--<div class="form-group col-md-6 overallCheckbox">-->
-            <!--<input type="checkbox" class="checkbox" id="modalDoNotImport" placeholder="BCI Field" name="selectedCustomerField" [(ngModel)]="selectedCustomerField.DoNotImport" >-->
-            <!--<label class="customerFileInput" >Do Not Import</label>-->
-
-          <!--</div>-->
-
-          <!--<div class="form-group col-md-6">-->
-            <!--<label class="customerFileInput" >Column Width</label>-->
-            <!--<input type="text" class="form-control" id="modalColumnWidth" placeholder="Sort Order" name="selectedCustomerField" [(ngModel)]="selectedCustomerField.ColumnWidth" >-->
-          <!--</div>-->
-
-        <!--</div>-->
 
           <!--type="submit" value="Submit"-->
 

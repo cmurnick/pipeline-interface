@@ -12,8 +12,8 @@ import { Classification} from '../models/classification';
 import { NgForm} from '@angular/forms';
 import {Input} from '@angular/compiler/src/core';
 import {ServiceReturn} from '../models/service-return';
-import DateTimeFormat = Intl.DateTimeFormat;
-import {DateFormatter} from '@angular/common/src/pipes/deprecated/intl';
+import { ProductProjectService} from '../services/product-project.service';
+import {ProductProject} from '../models/product-project';
 
 
 @Component({
@@ -29,16 +29,19 @@ export class ProjectsComponent implements OnInit {
   selectedExecId: number;
   singleProject: Project;
   classifications: Classification[];
-  products: Product[];
+
   vbCarriers: VbCarrier[];
   enrollmentMethods: EnrollmentMethod[];
   enrollmentSystems: EnrollmentSystem[];
   serviceReturn: ServiceReturn;
+  productProjects: ProductProject[];
+  custAllProducts: Product[];
 
 
   constructor(
     private projectService: ProjectService,
     private lookupsService: LookupsService,
+    private productProjectService: ProductProjectService,
     // private location: Location,
     // private route: ActivatedRoute,
     // private router: Router
@@ -47,7 +50,7 @@ export class ProjectsComponent implements OnInit {
   ngOnInit() {
     this.getSalesExecs();
     this.getClassifications();
-    this.getProducts();
+    // this.getProducts();
     this.getEnrollmentMethods();
     this.getEnrollmentSystems();
     this.getVbCarriers();
@@ -65,7 +68,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   createNewProject() {
-    this.singleProject = new Project('', 0, 0, 0, true, 0, 0, 0, '2018-01-19T00:00:00', '2018-01-19T00:00:00', 0, 0, '', '', '', '', '');
+    this.singleProject = new Project('', 0, 0, 0, true, 0, 0, 0, '2018-01-19T00:00:00', '2018-01-19T00:00:00', 0, 0, '', '', '', '', '', '');
 
   }
 
@@ -82,14 +85,14 @@ export class ProjectsComponent implements OnInit {
     );
   }
 
-  getProducts() {
-    this.lookupsService.getProducts().subscribe(
-      data => {
-        this.products = data as Product[];
-      },
-      err => console.log(err)
-    );
-  }
+  // getProducts() {
+  //   this.lookupsService.getProducts().subscribe(
+  //     data => {
+  //       this.products = data as Product[];
+  //     },
+  //     err => console.log(err)
+  //   );
+  // }
 
   getVbCarriers() {
     this.lookupsService.getVbCarriers().subscribe(
@@ -128,8 +131,18 @@ export class ProjectsComponent implements OnInit {
     );
   }
 
+  getAllForProject(projectId: number) {
+    this.lookupsService.getAllForProject(projectId).subscribe(
+      data => {
+        this.custAllProducts = data as Product[];
+        },
+      err=> console.log(err)
+    );
+  }
+
   selectedProject(project: Project) {
     this.singleProject = project;
+    this.getAllForProject(project.ProjectId);
     console.log('selected', this.singleProject);
   }
 
@@ -156,4 +169,17 @@ export class ProjectsComponent implements OnInit {
   //     this.messages = JSON.parse(JSON.stringify(this.serviceReturn.Messages));
   //   }
   // }
+
+  deleteProducts(projectId: number) {
+    this.productProjectService.deleteProductProject(projectId);
+     }
+     //
+     // insertProducts() {
+     //  this.productProjectService.postProductProjects().subscribe((
+     //    data => {
+     //      this.
+     //    }
+     //  ))
+//
+// }
 }

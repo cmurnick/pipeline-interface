@@ -18,7 +18,8 @@ export class Project {
     public FirstName: string,
     public SystemName: string,
     public VbCarrierName: string,
-    public EnrollmentMethodType: string
+    public EnrollmentMethodType: string,
+    public ProductNames: string
     // public StartDateDisplay: string,
     // public EndDateDisplay: string
  ) {}

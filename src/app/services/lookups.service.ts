@@ -46,4 +46,9 @@ export class LookupsService {
     const url = this.apiUrl + 'lookup/products';
     return this.http.get(url);
   }
+
+  getAllForProject(projectId: number) {
+    const url = this.apiUrl + 'lookup/products/' + projectId;
+    return this.http.get(url);
+  }
 }
