@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { SalesExec} from '../models/sales-exec';
 import { Observable} from 'rxjs';
+import { Product} from '../models/product';
 
 
 @Injectable
@@ -51,4 +52,10 @@ export class LookupsService {
     const url = this.apiUrl + 'lookup/products/' + projectId;
     return this.http.get(url);
   }
+
+  postProductProjects(projectId: number, products: Product[]) {
+    const url = this.apiUrl + 'lookup/projects/' + projectId + '/products/';
+    return this.http.post(url, products);
+    }
 }
+

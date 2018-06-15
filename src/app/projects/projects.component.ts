@@ -34,7 +34,6 @@ export class ProjectsComponent implements OnInit {
   enrollmentMethods: EnrollmentMethod[];
   enrollmentSystems: EnrollmentSystem[];
   serviceReturn: ServiceReturn;
-  productProjects: ProductProject[];
   custAllProducts: Product[];
 
 
@@ -154,7 +153,7 @@ export class ProjectsComponent implements OnInit {
         data => {this.serviceReturn = <ServiceReturn>data; },
         err => console.log(err),
         // err => this.alertService.danger('CustomerFile Save failed!')
-        // () => this.handleSave()
+        () => this.lookupsService.postProductProjects(this.custAllProducts, );
       );
   }
   //
