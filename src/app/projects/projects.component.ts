@@ -13,7 +13,7 @@ import { NgForm} from '@angular/forms';
 import {Input} from '@angular/compiler/src/core';
 import {ServiceReturn} from '../models/service-return';
 import { ProductProjectService} from '../services/product-project.service';
-import {ProductProject} from '../models/product-project';
+
 
 
 @Component({
@@ -67,7 +67,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   createNewProject() {
-    this.singleProject = new Project('', 0, 0, 0, true, 0, 0, 0, '2018-01-19T00:00:00', '2018-01-19T00:00:00', 0, 0, '', '', '', '', '', '');
+    this.getAllForProject(0);
+    this.singleProject =
+      new Project('', 0, 0, 0, true, 0, 0, 0, '2018-01-19T00:00:00', '2018-01-19T00:00:00', 0, 0, '', '', '', '', '', '');
 
   }
 
@@ -83,15 +85,6 @@ export class ProjectsComponent implements OnInit {
       err => console.log(err)
     );
   }
-
-  // getProducts() {
-  //   this.lookupsService.getProducts().subscribe(
-  //     data => {
-  //       this.products = data as Product[];
-  //     },
-  //     err => console.log(err)
-  //   );
-  // }
 
   getVbCarriers() {
     this.lookupsService.getVbCarriers().subscribe(
@@ -135,7 +128,7 @@ export class ProjectsComponent implements OnInit {
       data => {
         this.custAllProducts = data as Product[];
         },
-      err=> console.log(err)
+      err => console.log(err)
     );
   }
 
@@ -153,32 +146,26 @@ export class ProjectsComponent implements OnInit {
         data => {this.serviceReturn = <ServiceReturn>data; },
         err => console.log(err),
         // err => this.alertService.danger('CustomerFile Save failed!')
-        () => this.lookupsService.postProductProjects(this.custAllProducts, );
+        () => this.handleSave()
       );
   }
-  //
-  // handleSave() {
-  //   if (this.serviceReturn.Success) {
-  //     this.alertService.success('CustomerFile saved successfully!');
-  //     this.customerFile = JSON.parse(JSON.stringify(this.serviceReturn.Data));
-  //     this.globals.customerGlobal = this.customer;
-  //     console.log("customerFile", this.customerFile);
-  //   } else {
-  //     this.alertService.danger( 'CustomerFile save failed!');
-  //     this.messages = JSON.parse(JSON.stringify(this.serviceReturn.Messages));
-  //   }
-  // }
 
-  deleteProducts(projectId: number) {
-    this.productProjectService.deleteProductProject(projectId);
-     }
-     //
-     // insertProducts() {
-     //  this.productProjectService.postProductProjects().subscribe((
-     //    data => {
-     //      this.
-     //    }
-     //  ))
-//
-// }
+  handleSave() {
+    if (this.serviceReturn.Success) {
+      this.singleProject = JSON.parse(JSON.stringify(this.serviceReturn.Data));
+      this.lookupsService.postProductProjects(this.singleProject.ProjectId, this.custAllProducts)
+        .subscribe(
+          data => {this.serviceReturn = <ServiceReturn>data; },
+          err => console.log('crap'),
+          () => console.log('It freaking worked')
+      );
+      // console.log('It SAVED!!..maybe', this.custAllProducts);
+      // this.alertService.success('CustomerFile saved successfully!');
+      // this.customerFile = JSON.parse(JSON.stringify(this.serviceReturn.Data));
+      // console.log("customerFile", this.customerFile);
+    } else {
+      // this.alertService.danger( 'CustomerFile save failed!');
+      // this.messages = JSON.parse(JSON.stringify(this.serviceReturn.Messages));
+    }
+  }
 }

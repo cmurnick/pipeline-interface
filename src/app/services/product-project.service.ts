@@ -11,10 +11,10 @@ export class ProductProjectService {
     private http: HttpClient,
     ) { }
 
-  postProductProjects() {
-    const url = this.apiUrl + '/productproject/';
-    return this.http.get(url);
-  }
+  // postProductProjects() {
+  //   const url = this.apiUrl + '/productproject/';
+  //   return this.http.get(url);
+  // }
 
   deleteProductProject(projectId: number) {
     const url = this.apiUrl + '/productproject/' + projectId;

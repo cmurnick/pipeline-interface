@@ -5,8 +5,8 @@ import {Project} from '../models/project';
 import { LeadershipService} from '../services/leadership.service';
 import {ProjectService} from '../services/project.service';
 import { Product} from '../models/product';
-import {ProductProject} from '../models/product-project';
 import {Classification} from '../models/classification';
+import {LookupsService} from '../services/lookups.service';
 import {ProductProjectService} from '../services/product-project.service';
 
 @Component({
@@ -16,14 +16,16 @@ import {ProductProjectService} from '../services/product-project.service';
 })
 export class LeadershipComponent implements OnInit {
   projects: Project[];
-  productProjects: ProductProject[];
+  // productProjects: ProductProject[];
+  custAllProducts: Product[];
 
   constructor(
     private leadershipService: LeadershipService,
     private productProjectService: ProductProjectService) { }
+    private lookupsService: LookupsService
 
   ngOnInit() {
-
+    this.get();
   }
 
 
@@ -34,16 +36,25 @@ export class LeadershipComponent implements OnInit {
         console.log('sales data', this.projects);
       },
       err => console.error(err),
-      () => console.log('projects Loaded')
+      // () => this.getAllForProject()
     );
   }
 
-  postProductProjects() {
-    this.productProjectService.postProductProjects().subscribe(
+  getAllForProject(projectId: number) {
+    this.lookupsService.getAllForProject(projectId).subscribe(
       data => {
-        this.productProjects = data as ProductProject[];
+        this.custAllProducts = data as Product[];
       },
       err => console.log(err)
     );
   }
+
+  // postProductProjects(projectId: number, products: Product[]) {
+  //   this.lookupsService.postProductProjects(projectId, products).subscribe(
+  //     data => {
+  //       this.productProjects = data as ProductProject[];
+  //     },
+  //     err => console.log(err)
+  //   );
+  // }
  }

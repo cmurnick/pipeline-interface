@@ -1,23 +1,23 @@
 <H1>Leadership Report</H1>
 
 
-  <div>
-    <label class="checkbox-inline">
-      <input type="radio" name="trimester" value="true">T1
-    </label>
-    <label class="checkbox-inline">
-      <input type="radio" name="trimester" value="true">T2
-    </label>
-    <label class="checkbox-inline">
-      <input type="radio" name="trimester" value="true" (click)="get()">T3
-    </label>
-  </div>
+  <!--<div>-->
+    <!--<label class="checkbox-inline">-->
+      <!--<input type="radio" name="trimester" value="true">T1-->
+    <!--</label>-->
+    <!--<label class="checkbox-inline">-->
+      <!--<input type="radio" name="trimester" value="true">T2-->
+    <!--</label>-->
+    <!--<label class="checkbox-inline">-->
+      <!--<input type="radio" name="trimester" value="true" (click)="get()">T3-->
+    <!--</label>-->
+  <!--</div>-->
 
 
 
 
   <div>
-    <h3>Trimester 1</h3>
+    <h3>Summary of all Executive's Projects</h3>
 
     <table class="table table-condensed table-hover ">
       <tr class="header ">
@@ -47,6 +47,7 @@
         <td>{{project.SystemName}}</td>
         <td>{{project.VbCarrierName}}</td>
         <td>{{project.EnrollmentMethodType}}</td>
+        <td>{{project.ProductNames}}</td>
         <!--<div *ngFor="let productProject of productProjects">-->
         <!--<td  >{{project.ProductName}}</td>-->
           <!--ng-repeat="i in recipe.ingredients | filter: {hasIngredient: false}"-->
