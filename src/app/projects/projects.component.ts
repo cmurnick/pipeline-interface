@@ -12,7 +12,9 @@ import { Classification} from '../models/classification';
 import { NgForm} from '@angular/forms';
 import {Input} from '@angular/compiler/src/core';
 import {ServiceReturn} from '../models/service-return';
-import {ProjectToSave} from '../models/project-to-save';
+import { ProductProjectService} from '../services/product-project.service';
+
+
 
 @Component({
   selector: 'app-projects',
@@ -27,16 +29,18 @@ export class ProjectsComponent implements OnInit {
   selectedExecId: number;
   singleProject: Project;
   classifications: Classification[];
-  products: Product[];
+
   vbCarriers: VbCarrier[];
   enrollmentMethods: EnrollmentMethod[];
   enrollmentSystems: EnrollmentSystem[];
   serviceReturn: ServiceReturn;
-  projectToSave: ProjectToSave;
+  custAllProducts: Product[];
+
 
   constructor(
     private projectService: ProjectService,
     private lookupsService: LookupsService,
+    private productProjectService: ProductProjectService,
     // private location: Location,
     // private route: ActivatedRoute,
     // private router: Router
@@ -45,7 +49,7 @@ export class ProjectsComponent implements OnInit {
   ngOnInit() {
     this.getSalesExecs();
     this.getClassifications();
-    this.getProducts();
+    // this.getProducts();
     this.getEnrollmentMethods();
     this.getEnrollmentSystems();
     this.getVbCarriers();
@@ -62,19 +66,21 @@ export class ProjectsComponent implements OnInit {
     );
   }
 
+  createNewProject() {
+    this.getAllForProject(0);
+    this.singleProject =
+      new Project('', 0, 0, 0, true, 0, 0, 0, '2018-01-19T00:00:00', '2018-01-19T00:00:00', 0, 0, '', '', '', '', '', '');
+
+  }
+
+  // createNewFile (customerCD: string, id : number) {
+  //   this.customerFile = new CustomerFile(id, customerCD,0, '','', 0, '','' );
+  // }
+
   getClassifications() {
     this.lookupsService.getClassifications().subscribe(
       data => {
         this.classifications = data as Classification[];
-      },
-      err => console.log(err)
-    );
-  }
-
-  getProducts() {
-    this.lookupsService.getProducts().subscribe(
-      data => {
-        this.products = data as Product[];
       },
       err => console.log(err)
     );
@@ -117,47 +123,49 @@ export class ProjectsComponent implements OnInit {
     );
   }
 
+  getAllForProject(projectId: number) {
+    this.lookupsService.getAllForProject(projectId).subscribe(
+      data => {
+        this.custAllProducts = data as Product[];
+        },
+      err => console.log(err)
+    );
+  }
+
   selectedProject(project: Project) {
     this.singleProject = project;
+    this.getAllForProject(project.ProjectId);
     console.log('selected', this.singleProject);
   }
 
 
   SaveModal (singleProject: Project) {
-    const projectToSave = ProjectToSave;
-    //   {
-    //   ProjectId: singleProject.ProjectId,
-    //   CompanyName: singleProject.CompanyName,
-    //   NumberEligible: singleProject.NumberEligible,
-    //   NumberInterview: singleProject.NumberInterview,
-    //   ClassificationId: singleProject.ClassificationId,
-    //   New: singleProject.New,
-    //   SalesExecId: singleProject.SalesExecId,
-    //   EnrollmentSystemId: singleProject.EnrollmentSystemId,
-    //   VbCarrierId: singleProject.VbCarrierId,
-    //   StartDate: singleProject.StartDate,
-    //   EndDate: singleProject.EndDate,
-    //   EnrollmentMethodId: singleProject.EnrollmentMethodId
-    // };
-    console.log('ProjectToSave', projectToSave)
-    this.projectService.postProject(projectToSave)
+    console.log('ProjectToSave', singleProject);
+    this.projectService.postProject(singleProject)
       .subscribe(
         data => {this.serviceReturn = <ServiceReturn>data; },
         err => console.log(err),
         // err => this.alertService.danger('CustomerFile Save failed!')
-        // () => this.handleSave()
+        () => this.handleSave()
       );
   }
-  //
-  // handleSave() {
-  //   if (this.serviceReturn.Success) {
-  //     this.alertService.success('CustomerFile saved successfully!');
-  //     this.customerFile = JSON.parse(JSON.stringify(this.serviceReturn.Data));
-  //     this.globals.customerGlobal = this.customer;
-  //     console.log("customerFile", this.customerFile);
-  //   } else {
-  //     this.alertService.danger( 'CustomerFile save failed!');
-  //     this.messages = JSON.parse(JSON.stringify(this.serviceReturn.Messages));
-  //   }
-  // }
+
+  handleSave() {
+    if (this.serviceReturn.Success) {
+      this.singleProject = JSON.parse(JSON.stringify(this.serviceReturn.Data));
+      this.lookupsService.postProductProjects(this.singleProject.ProjectId, this.custAllProducts)
+        .subscribe(
+          data => {this.serviceReturn = <ServiceReturn>data; },
+          err => console.log('crap'),
+          () => console.log('It freaking worked')
+      );
+      // console.log('It SAVED!!..maybe', this.custAllProducts);
+      // this.alertService.success('CustomerFile saved successfully!');
+      // this.customerFile = JSON.parse(JSON.stringify(this.serviceReturn.Data));
+      // console.log("customerFile", this.customerFile);
+    } else {
+      // this.alertService.danger( 'CustomerFile save failed!');
+      // this.messages = JSON.parse(JSON.stringify(this.serviceReturn.Messages));
+    }
+  }
 }
